@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-step Form</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+      (function () {
+        emailjs.init("sad8nIBdjaa3OVKe0");
+      })();
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <img src="logo.png" alt="Logo" class="logo" />
+      <form id="multiStepForm" novalidate>
+        <!-- Step a1 -->
+        <div id="a1" class="form-step form-step-active">
+          <h2>Informações pessoais</h2>
+          <div class="form-group">
+            <label for="name" data-question="Nome Completo"
+              >Nome completo:</label
+            >
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group phone-group">
+            <div class="phone-item areacode-item">
+              <label for="areacode" data-question="Telefone">Área:</label>
+              <select id="areacode" name="areacode" required>
+                <option value="+1">USA +1</option>
+                <option value="+1">CAN +1</option>
+                <option value="+44">GBR +44</option>
+                <option value="+49">DEU +49</option>
+                <option value="+33">FRA +33</option>
+                <option value="+81">JPN +81</option>
+                <option value="+86">CHN +86</option>
+                <option value="+7">RUS +7</option>
+                <option value="+91">IND +91</option>
+                <option value="+55" selected>BRA +55</option>
+                <option value="+39">ITA +39</option>
+                <option value="+34">ESP +34</option>
+                <option value="+52">MEX +52</option>
+                <option value="+61">AUS +61</option>
+                <option value="+82">KOR +82</option>
+                <option value="+90">TUR +90</option>
+                <option value="+966">SAU +966</option>
+                <option value="+27">ZAF +27</option>
+                <option value="+62">IDN +62</option>
+                <option value="+54">ARG +54</option>
+                <option value="+234">NGA +234</option>
+                <option value="+20">EGY +20</option>
+                <option value="+92">PAK +92</option>
+                <option value="+63">PHL +63</option>
+                <option value="+60">MYS +60</option>
+                <option value="+66">THA +66</option>
+                <option value="+84">VNM +84</option>
+                <option value="+98">IRN +98</option>
+                <option value="+57">COL +57</option>
+                <option value="+56">CHL +56</option>
+              </select>
+            </div>
+            <div class="phone-item phone-input-item">
+              <label for="phone">Telefone:</label>
+              <input type="text" id="phone" name="phone" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              for="immigration"
+              data-question="Tempo para Imigração"
+            ></label>
+            <div class="btn-group btn-group-vertical" id="immigration-group">
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Menos de 1 ano"
+              >
+                Menos de 1 ano
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Entre 1 e 3 anos"
+              >
+                Entre 1 e 3 anos
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Mais de 3 anos"
+              >
+                Mais de 3 anos
+              </button>
+            </div>
+            <input type="hidden" id="immigration" name="immigration" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step b1 -->
+        <div id="b1" class="form-step">
+          <h2>Qual sua Formação Acadêmica?</h2>
+          <div class="form-group">
+            <label for="education" data-question="Formação Acadêmica"></label>
+            <div class="btn-group btn-group-vertical" id="education-group">
+              <button type="button" class="btn-option" data-value="Doutorado">
+                Doutorado
+              </button>
+              <button type="button" class="btn-option" data-value="Mestrado">
+                Mestrado
+              </button>
+              <button type="button" class="btn-option" data-value="Bacharel">
+                Bacharel
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Curso Técnico ou profissionalizante com + 2 anos de duração"
+              >
+                Curso Técnico ou profissionalizante com + 2 anos de duração
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Curso Técnico ou profissionalizante com - 2 anos de duração"
+              >
+                Curso Técnico ou profissionalizante com - 2 anos de duração
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Ensino Médio"
+              >
+                Ensino Médio
+              </button>
+            </div>
+            <input type="hidden" id="education" name="education" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c1 -->
+        <div id="c1" class="form-step">
+          <h2>Qual sua área de atuação?</h2>
+          <div class="form-group">
+            <label for="field" data-question="Área de atuação"></label>
+            <div class="btn-group btn-group-vertical" id="field-group">
+              <button type="button" class="btn-option" data-value="Médico">
+                Médico
+              </button>
+              <button type="button" class="btn-option" data-value="Dentista">
+                Dentista
+              </button>
+              <button type="button" class="btn-option" data-value="Outros">
+                Outros
+              </button>
+            </div>
+            <input type="hidden" id="field" name="field" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c_outros -->
+        <div id="c_outros" class="form-step">
+          <h2>Informe a área</h2>
+          <div class="form-group">
+            <label for="other_field" data-question="Área de atuação"></label>
+            <input type="text" id="other_field" name="other_field" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c2 -->
+        <div id="c2" class="form-step">
+          <h2>Você tem oferta de trabalho nos EUA?</h2>
+          <div class="form-group">
+            <label
+              for="job_offer"
+              data-question="Possui oferta de trabalho"
+            ></label>
+            <div class="btn-group btn-group-vertical" id="job_offer-group">
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input type="hidden" id="job_offer" name="job_offer" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c3 -->
+        <div id="c3" class="form-step">
+          <h2>Qual das opções descreve melhor o seu trabalho?</h2>
+          <div class="form-group">
+            <label
+              for="job_description"
+              data-question="Descrição do trabalho"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="job_description-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Professor ou Pesquisador"
+              >
+                Professor ou Pesquisador
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Gerente ou Executivo"
+              >
+                Gerente ou Executivo
+              </button>
+              <button type="button" class="btn-option" data-value="Outros">
+                Outros
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="job_description"
+              name="job_description"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c4 -->
+        <div id="c4" class="form-step">
+          <h2>
+            Você recebeu reconhecimento internacional e suas realizações foram
+            reconhecidas em sua área de atuação/especialização?
+          </h2>
+          <div class="form-group">
+            <label
+              for="international_recognition"
+              data-question="Reconhecimento internacional"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="international_recognition-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="international_recognition"
+              name="international_recognition"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c5 -->
+        <div id="c5" class="form-step">
+          <h2>
+            Em quais das seguintes opções você se enquadra e tem como fornecer
+            evidências?
+          </h2>
+          <div class="form-group">
+            <label for="evidence" data-question="Quais evidências"></label>
+            <div class="btn-group btn-group-vertical" id="evidence-group">
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Prêmios de reconhecimento nacional ou internacional"
+              >
+                Prêmios de reconhecimento nacional ou internacional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Participação em associações com realizações notáveis"
+              >
+                Participação em associações com realizações notáveis
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Publicações sobre você em mídias importantes"
+              >
+                Publicações sobre você em mídias importantes
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Julgamento do trabalho de outros"
+              >
+                Julgamento do trabalho de outros
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Contribuições originais de grande importância"
+              >
+                Contribuições originais de grande importância
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Autoria de artigos em publicações importantes"
+              >
+                Autoria de artigos em publicações importantes
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Exibição de trabalho em vitrines artísticas"
+              >
+                Exibição de trabalho em vitrines artísticas
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Desempenho em liderança ou função crítica"
+              >
+                Desempenho em liderança ou função crítica
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Salário ou remuneração significativamente alta"
+              >
+                Salário ou remuneração significativamente alta
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Sucessos comerciais nas artes cênicas"
+              >
+                Sucessos comerciais nas artes cênicas
+              </button>
+            </div>
+            <input type="hidden" id="evidence" name="evidence" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c6 -->
+        <div id="c6" class="form-step">
+          <h2>Qual das opções a seguir melhor descreve seu portfólio?</h2>
+          <div class="form-group">
+            <label for="portfolio" data-question="Portifólio"></label>
+            <div class="btn-group btn-group-vertical" id="portfolio-group">
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Empreendedor com sucesso financeiro e corporativo"
+              >
+                Empreendedor com sucesso financeiro e corporativo
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Funcionário premiado em multinacional, posição crítica"
+              >
+                Funcionário premiado em multinacional, posição crítica
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional renomado com inovações distintas"
+              >
+                Profissional renomado com inovações distintas
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Autônomo reconhecido com interesse governamental"
+              >
+                Autônomo reconhecido com interesse governamental
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional acima da média, influente"
+              >
+                Profissional acima da média, influente
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiente sem evidências de impacto"
+              >
+                Experiente sem evidências de impacto
+              </button>
+            </div>
+            <input type="hidden" id="portfolio" name="portfolio" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c7 -->
+        <div id="c7" class="form-step">
+          <h2>
+            Em quais das seguintes opções você se enquadra e tem como fornecer
+            evidências?
+          </h2>
+          <div class="form-group">
+            <label
+              for="additional_evidence"
+              data-question="Fornecimento de evidências"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="additional_evidence-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Diploma ou certificado acadêmico relevante"
+              >
+                Diploma ou certificado acadêmico relevante
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiência profissional de 10 anos"
+              >
+                Experiência profissional de 10 anos
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Licença ou certificação profissional"
+              >
+                Licença ou certificação profissional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Salário comprovando habilidade excepcional"
+              >
+                Salário comprovando habilidade excepcional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Associação a organizações profissionais"
+              >
+                Associação a organizações profissionais
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Reconhecimento significativo por pares"
+              >
+                Reconhecimento significativo por pares
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="additional_evidence"
+              name="additional_evidence"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step c8 -->
+        <div id="c8" class="form-step">
+          <h2>
+            Você gostaria de receber informações sobre nosso programa "Encontre
+            um Patrocinador nos EUA"?
+          </h2>
+          <div class="form-group">
+            <label
+              for="sponsor_info"
+              data-question="Receber informações sobre Sponsor"
+            ></label>
+            <div class="btn-group btn-group-vertical" id="sponsor_info-group">
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="sponsor_info"
+              name="sponsor_info"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="submit" class="btn btn-submit">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step d1 -->
+        <div id="d1" class="form-step">
+          <h2>Qual sua área de atuação?</h2>
+          <div class="form-group">
+            <label for="bachelor_field" data-question="Área de atuação"></label>
+            <div class="btn-group btn-group-vertical" id="bachelor_field-group">
+              <button type="button" class="btn-option" data-value="Médico">
+                Médico
+              </button>
+              <button type="button" class="btn-option" data-value="Dentista">
+                Dentista
+              </button>
+              <button type="button" class="btn-option" data-value="Outros">
+                Outros
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="bachelor_field"
+              name="bachelor_field"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step d_outros -->
+        <div id="d_outros" class="form-step">
+          <h2>Informe a área</h2>
+          <div class="form-group">
+            <label
+              for="bachelor_other_field"
+              data-question="Área de atuação"
+            ></label>
+            <input
+              type="text"
+              id="bachelor_other_field"
+              name="bachelor_other_field"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step d2 -->
+        <div id="d2" class="form-step">
+          <h2>Você tem oferta de trabalho nos EUA?</h2>
+          <div class="form-group">
+            <label
+              for="bachelor_job_oofer"
+              data-question="Possui oferta de trabalho"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="bachelor_job_offer-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="bachelor_job_offer"
+              name="bachelor_job_offer"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step d3 -->
+        <div id="d3" class="form-step">
+          <h2>
+            Você tem pelo menos 5 anos de experiência profissional progressiva e
+            pós-bacharelado em sua área acadêmica?
+          </h2>
+          <div class="form-group">
+            <label
+              for="bachelor_experience"
+              data-question="5 anos de experiência"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="bachelor_experience-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="bachelor_experience"
+              name="bachelor_experience"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step d4 -->
+        <div id="d4" class="form-step">
+          <h2>Qual das opções a seguir melhor descreve seu portfólio?</h2>
+          <div class="form-group">
+            <label for="bachelor_portfolio" data-question="Portifólio"></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="bachelor_portfolio-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Empreendedor com sucesso financeiro e corporativo"
+              >
+                Empreendedor com sucesso financeiro e corporativo
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Funcionário premiado em multinacional, posição crítica"
+              >
+                Funcionário premiado em multinacional, posição crítica
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional renomado com inovações distintas"
+              >
+                Profissional renomado com inovações distintas
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Autônomo reconhecido com interesse governamental"
+              >
+                Autônomo reconhecido com interesse governamental
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional acima da média, influente"
+              >
+                Profissional acima da média, influente
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiente sem evidências de impacto"
+              >
+                Experiente sem evidências de impacto
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="bachelor_portfolio"
+              name="bachelor_portfolio"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step d5 -->
+        <div id="d5" class="form-step">
+          <h2>
+            Em quais das seguintes opções você se enquadra e tem como fornecer
+            evidências?
+          </h2>
+          <div class="form-group">
+            <label
+              for="bachelor_evidence"
+              data-question="Quais evidências"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="bachelor_evidence-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Diploma ou certificado acadêmico relevante"
+              >
+                Diploma ou certificado acadêmico relevante
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiência profissional de 10 anos"
+              >
+                Experiência profissional de 10 anos
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Licença ou certificação profissional"
+              >
+                Licença ou certificação profissional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Salário comprovando habilidade excepcional"
+              >
+                Salário comprovando habilidade excepcional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Associação a organizações profissionais"
+              >
+                Associação a organizações profissionais
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Reconhecimento significativo por pares"
+              >
+                Reconhecimento significativo por pares
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="bachelor_evidence"
+              name="bachelor_evidence"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step d6 -->
+        <div id="d6" class="form-step">
+          <h2>
+            Você gostaria de receber informações sobre nosso programa "Encontre
+            um Patrocinador nos EUA"?
+          </h2>
+          <div class="form-group">
+            <label
+              for="bachelor_sponsor_info"
+              data-question="Receber informações sobre Sponsor"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="bachelor_sponsor_info-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="bachelor_sponsor_info"
+              name="bachelor_sponsor_info"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="submit" class="btn btn-submit">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e1 -->
+        <div id="e1" class="form-step">
+          <h2>Qual sua área de atuação?</h2>
+          <div class="form-group">
+            <label for="tech_field" data-question="Área de atuação"></label>
+            <div class="btn-group btn-group-vertical" id="tech_field-group">
+              <button type="button" class="btn-option" data-value="Médico">
+                Médico
+              </button>
+              <button type="button" class="btn-option" data-value="Dentista">
+                Dentista
+              </button>
+              <button type="button" class="btn-option" data-value="Outros">
+                Outros
+              </button>
+            </div>
+            <input type="hidden" id="tech_field" name="tech_field" required />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e_outros -->
+        <div id="e_outros" class="form-step">
+          <h2>Informe a área</h2>
+          <div class="form-group">
+            <label
+              for="tech_other_field"
+              data-question="Área de atuação"
+            ></label>
+            <input
+              type="text"
+              id="tech_other_field"
+              name="tech_other_field"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e2 -->
+        <div id="e2" class="form-step">
+          <h2>Você tem oferta de trabalho nos EUA?</h2>
+          <div class="form-group">
+            <label
+              for="tech_job_offer"
+              data-question="Possui oferta de trabalho"
+            ></label>
+            <div class="btn-group btn-group-vertical" id="tech_job_offer-group">
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="tech_job_offer"
+              name="tech_job_offer"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e3 -->
+        <div id="e3" class="form-step">
+          <h2>
+            Você recebeu reconhecimento internacional e suas realizações foram
+            reconhecidas em sua área de atuação/especialização?
+          </h2>
+          <div class="form-group">
+            <label
+              for="tech_international_recognition"
+              data-question="Reconhecimento internacional"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="tech_international_recognition-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="tech_international_recognition"
+              name="tech_international_recognition"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e4 -->
+        <div id="e4" class="form-step">
+          <h2>
+            Em quais das seguintes opções você se enquadra e tem como fornecer
+            evidências?
+          </h2>
+          <div class="form-group">
+            <label for="tech_evidence" data-question="Quais evidências"></label>
+            <div class="btn-group btn-group-vertical" id="tech_evidence-group">
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Prêmios de reconhecimento nacional ou internacional"
+              >
+                Prêmios de reconhecimento nacional ou internacional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Participação em associações com realizações notáveis"
+              >
+                Participação em associações com realizações notáveis
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Publicações sobre você em mídias importantes"
+              >
+                Publicações sobre você em mídias importantes
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Julgamento do trabalho de outros"
+              >
+                Julgamento do trabalho de outros
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Contribuições originais de grande importância"
+              >
+                Contribuições originais de grande importância
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Autoria de artigos em publicações importantes"
+              >
+                Autoria de artigos em publicações importantes
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Exibição de trabalho em vitrines artísticas"
+              >
+                Exibição de trabalho em vitrines artísticas
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Desempenho em liderança ou função crítica"
+              >
+                Desempenho em liderança ou função crítica
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Salário ou remuneração significativamente alta"
+              >
+                Salário ou remuneração significativamente alta
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Sucessos comerciais nas artes cênicas"
+              >
+                Sucessos comerciais nas artes cênicas
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="tech_evidence"
+              name="tech_evidence"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e5 -->
+        <div id="e5" class="form-step">
+          <h2>Qual das opções a seguir melhor descreve seu portfólio?</h2>
+          <div class="form-group">
+            <label for="tech_portfolio" data-question="Portifólio"></label>
+            <div class="btn-group btn-group-vertical" id="tech_portfolio-group">
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Empreendedor com sucesso financeiro e corporativo"
+              >
+                Empreendedor com sucesso financeiro e corporativo
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Funcionário premiado em multinacional, posição crítica"
+              >
+                Funcionário premiado em multinacional, posição crítica
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional renomado com inovações distintas"
+              >
+                Profissional renomado com inovações distintas
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Autônomo reconhecido com interesse governamental"
+              >
+                Autônomo reconhecido com interesse governamental
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional acima da média, influente"
+              >
+                Profissional acima da média, influente
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiente sem evidências de impacto"
+              >
+                Experiente sem evidências de impacto
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="tech_portfolio"
+              name="tech_portfolio"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e6 -->
+        <div id="e6" class="form-step">
+          <h2>
+            Em quais das seguintes opções você se enquadra e tem como fornecer
+            evidências?
+          </h2>
+          <div class="form-group">
+            <label
+              for="tech_additional_evidence"
+              data-question="Quais evidências"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="tech_additional_evidence-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Diploma ou certificado acadêmico relevante"
+              >
+                Diploma ou certificado acadêmico relevante
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiência profissional de 10 anos"
+              >
+                Experiência profissional de 10 anos
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Licença ou certificação profissional"
+              >
+                Licença ou certificação profissional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Salário comprovando habilidade excepcional"
+              >
+                Salário comprovando habilidade excepcional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Associação a organizações profissionais"
+              >
+                Associação a organizações profissionais
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Reconhecimento significativo por pares"
+              >
+                Reconhecimento significativo por pares
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="tech_additional_evidence"
+              name="tech_additional_evidence"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step e7 -->
+        <div id="e7" class="form-step">
+          <h2>
+            Você gostaria de receber informações sobre nosso programa "Encontre
+            um Patrocinador nos EUA"?
+          </h2>
+          <div class="form-group">
+            <label
+              for="tech_sponsor_info"
+              data-question="Receber informações sobre Sponsor"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="tech_sponsor_info-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="tech_sponsor_info"
+              name="tech_sponsor_info"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="submit" class="btn btn-submit">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f1 -->
+        <div id="f1" class="form-step">
+          <h2>Qual sua área de atuação?</h2>
+          <div class="form-group">
+            <label
+              for="highschool_field"
+              data-question="Área de atuação"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="highschool_field-group"
+            >
+              <button type="button" class="btn-option" data-value="Médico">
+                Médico
+              </button>
+              <button type="button" class="btn-option" data-value="Dentista">
+                Dentista
+              </button>
+              <button type="button" class="btn-option" data-value="Outros">
+                Outros
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="highschool_field"
+              name="highschool_field"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f_outros -->
+        <div id="f_outros" class="form-step">
+          <h2>Informe a área</h2>
+          <div class="form-group">
+            <label
+              for="highschool_other_field"
+              data-question="Área de atuação"
+            ></label>
+            <input
+              type="text"
+              id="highschool_other_field"
+              name="highschool_other_field"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f2 -->
+        <div id="f2" class="form-step">
+          <h2>Você tem oferta de trabalho nos EUA?</h2>
+          <div class="form-group">
+            <label
+              for="highschool_job_offer"
+              data-question="Possui oferta de trabalho"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="highschool_job_offer-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="highschool_job_offer"
+              name="highschool_job_offer"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f3 -->
+        <div id="f3" class="form-step">
+          <h2>
+            Você recebeu reconhecimento internacional e suas realizações foram
+            reconhecidas em sua área de atuação/especialização?
+          </h2>
+          <div class="form-group">
+            <label
+              for="highschool_international_recognition"
+              data-question="Reconhecimento internacional"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="highschool_international_recognition-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="highschool_international_recognition"
+              name="highschool_international_recognition"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f4 -->
+        <div id="f4" class="form-step">
+          <h2>
+            Em quais das seguintes opções você se enquadra e tem como fornecer
+            evidências?
+          </h2>
+          <div class="form-group">
+            <label
+              for="highschool_evidence"
+              data-question="Quais evidências"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="highschool_evidence-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Prêmios de reconhecimento nacional ou internacional"
+              >
+                Prêmios de reconhecimento nacional ou internacional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Participação em associações com realizações notáveis"
+              >
+                Participação em associações com realizações notáveis
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Publicações sobre você em mídias importantes"
+              >
+                Publicações sobre você em mídias importantes
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Julgamento do trabalho de outros"
+              >
+                Julgamento do trabalho de outros
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Contribuições originais de grande importância"
+              >
+                Contribuições originais de grande importância
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Autoria de artigos em publicações importantes"
+              >
+                Autoria de artigos em publicações importantes
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Exibição de trabalho em vitrines artísticas"
+              >
+                Exibição de trabalho em vitrines artísticas
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Desempenho em liderança ou função crítica"
+              >
+                Desempenho em liderança ou função crítica
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Salário ou remuneração significativamente alta"
+              >
+                Salário ou remuneração significativamente alta
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Sucesso comercial nas artes cênicas"
+              >
+                Sucesso comercial nas artes cênicas
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="highschool_evidence"
+              name="highschool_evidence"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f5 -->
+        <div id="f5" class="form-step">
+          <h2>Qual das opções a seguir melhor descreve seu portfólio?</h2>
+          <div class="form-group">
+            <label
+              for="highschool_portfolio"
+              data-question="Portifólio"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="highschool_portfolio-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Empreendedor com sucesso financeiro e corporativo"
+              >
+                Empreendedor com sucesso financeiro e corporativo
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Funcionário premiado em multinacional, posição crítica"
+              >
+                Funcionário premiado em multinacional, posição crítica
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional renomado com inovações distintas"
+              >
+                Profissional renomado com inovações distintas
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Autônomo reconhecido com interesse governamental"
+              >
+                Autônomo reconhecido com interesse governamental
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Profissional acima da média, influente"
+              >
+                Profissional acima da média, influente
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiente sem evidências de impacto"
+              >
+                Experiente sem evidências de impacto
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="highschool_portfolio"
+              name="highschool_portfolio"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f6 -->
+        <div id="f6" class="form-step">
+          <h2>
+            Qual das seguintes opções você se enquadra e tem como fornecer
+            evidências?
+          </h2>
+          <div class="form-group">
+            <label
+              for="highschool_additional_evidence"
+              data-question="Quais evidências"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="highschool_additional_evidence-group"
+            >
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Diploma ou certificado acadêmico relevante"
+              >
+                Diploma ou certificado acadêmico relevante
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Experiência profissional de 10 anos"
+              >
+                Experiência profissional de 10 anos
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Licença ou certificação profissional"
+              >
+                Licença ou certificação profissional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Salário comprovando habilidade excepcional"
+              >
+                Salário comprovando habilidade excepcional
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Associação a organizações profissionais"
+              >
+                Associação a organizações profissionais
+              </button>
+              <button
+                type="button"
+                class="btn-option"
+                data-value="Reconhecimento significativo por pares"
+              >
+                Reconhecimento significativo por pares
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="highschool_additional_evidence"
+              name="highschool_additional_evidence"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="button" class="btn btn-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- Step f7 -->
+        <div id="f7" class="form-step">
+          <h2>
+            Você gostaria de receber informações sobre nosso programa "Encontre
+            um Patrocinador nos EUA"?
+          </h2>
+          <div class="form-group">
+            <label
+              for="highschool_sponsor_info"
+              data-question="Receber informações sobre Sponsor"
+            ></label>
+            <div
+              class="btn-group btn-group-vertical"
+              id="highschool_sponsor_info-group"
+            >
+              <button type="button" class="btn-option" data-value="Sim">
+                Sim
+              </button>
+              <button type="button" class="btn-option" data-value="Não">
+                Não
+              </button>
+            </div>
+            <input
+              type="hidden"
+              id="highschool_sponsor_info"
+              name="highschool_sponsor_info"
+              required
+            />
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back">Voltar</button>
+            <button type="submit" class="btn btn-submit">Próximo</button>
+          </div>
+        </div>
+        <div id="thank-you-step" class="form-step">
+          <h2>Estaremos analisando seus dados e entraremos em contato.</h2>
+          <h1>Obrigado pela colaboração!</h1>
+        </div>
+      </form>
+    </div>
+    <script src="scripts.js"></script>
+  </body>
+</html>
